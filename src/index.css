@@ -32,3 +32,9 @@ html {
   border-start-end-radius: 5rem;
   overflow-y: scroll;
 }
+
+@media screen and (max-width: 1440px) {
+  html {
+    font-size: 55%;
+  }
+}

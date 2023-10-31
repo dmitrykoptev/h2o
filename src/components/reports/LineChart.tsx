@@ -1,4 +1,5 @@
 import React from "react";
+import { ICountedData } from "../../mock/maths";
 import { ResponsiveLine } from "@nivo/line";
 import { IDataForChart, numberTransform } from "../../mock/dataTransformer";
 import { ReactComponent as RevenueIcon } from "../../assets/icons/revenue.svg";
@@ -12,7 +13,6 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { ICountedData } from "../../mock/maths";
 
 interface ILineChartProps {
   active: string;
@@ -71,9 +71,17 @@ const LineChart = ({ chartData, active, reportsData }: ILineChartProps) => {
                 strokeWidth: 2,
               },
             },
+            tooltip: {
+              container: {
+                background: "#ffffff",
+                fontSize: 20,
+                borderRadius: "1rem",
+              },
+            },
           }}
           colors={{ datum: "color" }}
           margin={{ top: 20, right: 40, bottom: 28, left: 40 }}
+          lineWidth={4}
           xScale={{ type: "point" }}
           yScale={{
             type: "linear",

@@ -45,7 +45,7 @@ const Reports = ({ transactions, changes, dataForChart }: IReportsProps) => {
           display: "grid",
           gridTemplateColumns: "repeat(9, 1fr)",
           gridTemplateRows: "16.8rem 42.6rem",
-          gridGap: "4rem",
+          gridGap: { lg: "4rem", md: "2rem" },
         }}
       >
         <Box
