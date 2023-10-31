@@ -2,6 +2,7 @@ import React from "react";
 import { Box, Typography, useTheme } from "@mui/material";
 import { ReactComponent as UpIcon } from "../../assets/icons/arrowUp.svg";
 import { ReactComponent as DownIcon } from "../../assets/icons/arrowDown.svg";
+import { numberTransform } from "../../mock/dataTransformer";
 
 interface ISummaryProps {
   title: string;
@@ -12,14 +13,6 @@ interface ISummaryProps {
 
 const Summary = ({ title, sum, percent, active }: ISummaryProps) => {
   const theme = useTheme();
-
-  // Форматирую получаемую сумму
-  const formattedSum = sum
-    .toLocaleString("en-US", {
-      maximumFractionDigits: 0,
-      useGrouping: true,
-    })
-    .replace(/,/g, " ");
 
   return (
     <Box
@@ -92,7 +85,7 @@ const Summary = ({ title, sum, percent, active }: ISummaryProps) => {
         </Typography>
       </Box>
       <Typography fontWeight={600} variant="h1">
-        ₽ {formattedSum}
+        ₽ {numberTransform(sum)}
       </Typography>
       <Typography fontWeight={600} variant="h4">
         {title}

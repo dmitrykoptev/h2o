@@ -10,6 +10,7 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
+import { numberTransform } from "../../mock/dataTransformer";
 
 interface IProblemAreasProps {
   list: IPurposeExpenses[];
@@ -98,7 +99,7 @@ const PropblemAreas = ({ list }: IProblemAreasProps) => {
                     fontWeight={700}
                     color={theme.palette.secondary.dark}
                   >
-                    ₽ {item.sum}
+                    ₽ {numberTransform(item.sum)}
                   </Typography>
                 }
               />

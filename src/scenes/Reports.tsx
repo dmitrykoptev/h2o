@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import Summary from "../components/reports/Summary";
-import PropblemAreas from "../components/reports/PropblemAreas";
 import LineChart from "../components/reports/LineChart";
-import ITransaction, { Purpose } from "../models/transaction";
+import ITransaction from "../models/transaction";
+import PropblemAreas from "../components/reports/PropblemAreas";
 import { Box, Typography, useTheme } from "@mui/material";
 import { IChanges } from "../App";
 import { IDataForChart } from "../mock/dataTransformer";
+import { countData } from "../mock/maths";
 
 interface IReportsProps {
   transactions: ITransaction[];
@@ -24,92 +25,10 @@ export interface IPurposeExpenses {
 
 const Reports = ({ transactions, changes, dataForChart }: IReportsProps) => {
   const theme = useTheme();
+
   const [current, setCurrent] = useState("Итоги");
 
-  // B2B
-  const b2bTransactions = transactions.filter(
-    (item) => item.division === "B2B"
-  );
-
-  const b2bExpenses = b2bTransactions
-    .filter((item) => item.type === "expenses")
-    .reduce((accumulator, item) => accumulator + item.amount, 0);
-
-  const b2bIncomes = b2bTransactions
-    .filter((item) => item.type === "income")
-    .reduce((accumulator, item) => accumulator + item.amount, 0);
-
-  const b2bSummary = b2bIncomes - b2bExpenses;
-
-  // B2C
-  const b2cTransactions = transactions.filter(
-    (item) => item.division === "B2C"
-  );
-
-  const b2cExpenses = b2cTransactions
-    .filter((item) => item.type === "expenses")
-    .reduce((accumulator, item) => accumulator + item.amount, 0);
-
-  const b2cIncomes = b2cTransactions
-    .filter((item) => item.type === "income")
-    .reduce((accumulator, item) => accumulator + item.amount, 0);
-
-  const b2cSummary = b2cIncomes - b2cExpenses;
-
-  // Итоги
-  const summary = b2cSummary + b2bSummary;
-
-  // Проблемные зоны
-  const purposeSummarize = (purpose: Purpose) => {
-    const expenses = transactions.filter((item) => item.type === "expenses");
-
-    return expenses
-      .filter((item) => item.purpose === purpose)
-      .reduce((accumulator, item) => accumulator + item.amount, 0);
-  };
-
-  const expensesOnPurpose = [
-    {
-      name: Purpose.LineStaff,
-      sum: purposeSummarize(Purpose.LineStaff),
-    },
-    {
-      name: Purpose.WorkUnit,
-      sum: purposeSummarize(Purpose.WorkUnit),
-    },
-    {
-      name: Purpose.GasCash,
-      sum: purposeSummarize(Purpose.GasCash),
-    },
-    {
-      name: Purpose.InventoryPurchase,
-      sum: purposeSummarize(Purpose.InventoryPurchase),
-    },
-    {
-      name: Purpose.SpecialClothing,
-      sum: purposeSummarize(Purpose.SpecialClothing),
-    },
-    {
-      name: Purpose.EquipmentRepair,
-      sum: purposeSummarize(Purpose.EquipmentRepair),
-    },
-    {
-      name: Purpose.CarMaintenance,
-      sum: purposeSummarize(Purpose.CarMaintenance),
-    },
-    {
-      name: Purpose.ForceMajeure,
-      sum: purposeSummarize(Purpose.ForceMajeure),
-    },
-    {
-      name: Purpose.BloggerBudgets,
-      sum: purposeSummarize(Purpose.BloggerBudgets),
-    },
-    {
-      name: Purpose.ContextBudgets,
-      sum: purposeSummarize(Purpose.ContextBudgets),
-    },
-  ];
+  const reportsData = countData(transactions);
 
   return (
     <Box className="tablets">
@@ -140,7 +59,7 @@ const Reports = ({ transactions, changes, dataForChart }: IReportsProps) => {
         >
           <Summary
             title="Итоги"
-            sum={summary}
+            sum={reportsData.overall.total}
             percent={changes.total}
             active={current}
           />
@@ -155,7 +74,7 @@ const Reports = ({ transactions, changes, dataForChart }: IReportsProps) => {
         >
           <Summary
             title="B2B"
-            sum={b2bSummary}
+            sum={reportsData.b2b.total}
             percent={changes.b2b}
             active={current}
           />
@@ -170,7 +89,7 @@ const Reports = ({ transactions, changes, dataForChart }: IReportsProps) => {
         >
           <Summary
             title="B2C"
-            sum={b2cSummary}
+            sum={reportsData.b2c.total}
             percent={changes.b2c}
             active={current}
           />
@@ -183,7 +102,7 @@ const Reports = ({ transactions, changes, dataForChart }: IReportsProps) => {
             overflow: "hidden",
           }}
         >
-          <PropblemAreas list={expensesOnPurpose} />
+          <PropblemAreas list={reportsData.problemAreas} />
         </Box>
         <Box
           sx={{
@@ -192,7 +111,11 @@ const Reports = ({ transactions, changes, dataForChart }: IReportsProps) => {
             borderRadius: "2rem",
           }}
         >
-          <LineChart active={current} data={dataForChart} />
+          <LineChart
+            active={current}
+            reportsData={reportsData}
+            chartData={dataForChart}
+          />
         </Box>
       </Box>
     </Box>

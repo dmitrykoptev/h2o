@@ -57,7 +57,7 @@ export const groupTransactionsByMonth = (
 
     const divisionTotal = createDataForChart(
       `Прибыль`,
-      "blue",
+      "#45AAF2",
       divisionTransactions
     );
     const divisionIncomes: Record<string, number> = {};
@@ -86,14 +86,14 @@ export const groupTransactionsByMonth = (
       divisionTotal,
       createDataForChart(
         `Затраты`,
-        "grey",
+        "#30C7DC",
         divisionTransactions.filter(
           (transaction) => transaction.type === "expenses"
         )
       ),
       createDataForChart(
         `Выручка`,
-        "black",
+        "#73CF7A",
         divisionTransactions.filter(
           (transaction) => transaction.type === "income"
         )
@@ -106,4 +106,13 @@ export const groupTransactionsByMonth = (
   const totalData = processDivision("total");
 
   return { b2b: b2bData, b2c: b2cData, total: totalData };
+};
+
+export const numberTransform = (num: number) => {
+  return num
+    .toLocaleString("en-US", {
+      maximumFractionDigits: 0,
+      useGrouping: true,
+    })
+    .replace(/,/g, " ");
 };
