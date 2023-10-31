@@ -1,7 +1,7 @@
 import React from "react";
 import { ICountedData } from "../../mock/maths";
 import { ResponsiveLine } from "@nivo/line";
-import { IDataForChart, numberTransform } from "../../mock/dataTransformer";
+import { IChartData, numberTransform } from "../../mock/dataTransformer";
 import { ReactComponent as RevenueIcon } from "../../assets/icons/revenue.svg";
 import { ReactComponent as IncomesIcon } from "../../assets/icons/incomes.svg";
 import { ReactComponent as ExpensesIcon } from "../../assets/icons/expenses.svg";
@@ -16,11 +16,7 @@ import {
 
 interface ILineChartProps {
   active: string;
-  chartData: {
-    b2b: IDataForChart[];
-    b2c: IDataForChart[];
-    total: IDataForChart[];
-  };
+  chartData: IChartData;
   reportsData: ICountedData;
 }
 
@@ -42,13 +38,15 @@ const LineChart = ({ chartData, active, reportsData }: ILineChartProps) => {
         color={theme.palette.secondary.dark}
         mb="1rem"
       >
-        Общая статистика{" "}
+        {`${
+          active === "Итоги" ? "Общая" : active === "B2B" ? "B2B" : "B2C"
+        } статистика`}
       </Typography>
       <Box sx={{ height: "28rem" }}>
         <ResponsiveLine
           data={
             active === "Итоги"
-              ? chartData.total
+              ? chartData.overall
               : active === "B2B"
               ? chartData.b2b
               : chartData.b2c

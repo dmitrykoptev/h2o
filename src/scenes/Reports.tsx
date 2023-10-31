@@ -5,17 +5,13 @@ import ITransaction from "../models/transaction";
 import PropblemAreas from "../components/reports/PropblemAreas";
 import { Box, Typography, useTheme } from "@mui/material";
 import { IChanges } from "../App";
-import { IDataForChart } from "../mock/dataTransformer";
+import { IChartData } from "../mock/dataTransformer";
 import { countData } from "../mock/maths";
 
 interface IReportsProps {
   transactions: ITransaction[];
   changes: IChanges;
-  dataForChart: {
-    b2b: IDataForChart[];
-    b2c: IDataForChart[];
-    total: IDataForChart[];
-  };
+  dataForChart: IChartData;
 }
 
 export interface IPurposeExpenses {

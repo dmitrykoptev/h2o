@@ -9,6 +9,7 @@ const User = () => {
   return (
     <Box
       sx={{
+        marginLeft: { lg: "5.5rem", md: 0 },
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",

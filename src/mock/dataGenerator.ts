@@ -17,8 +17,8 @@ const generateDivision = () => {
 
 const generateTransactionType = () => {
   const transactionTypes = Object.values(TransactionType);
-  const randomIndex = Math.floor(Math.random() * transactionTypes.length);
-  return transactionTypes[randomIndex];
+
+  return Math.random() > 0.4 ? transactionTypes[0] : transactionTypes[1];
 };
 
 const generatePurpose = () => {
