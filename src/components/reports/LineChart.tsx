@@ -13,7 +13,6 @@ import {
   useTheme,
 } from "@mui/material";
 import { ICountedData } from "../../mock/maths";
-import { current } from "@reduxjs/toolkit";
 
 interface ILineChartProps {
   active: string;
